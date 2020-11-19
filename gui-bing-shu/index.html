@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>E166ER</title>
+<title>归并树 | E166ER</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,10 +18,13 @@
 
 
 
-    <meta name="description" content="个人blog">
-    
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    
+    <meta name="description" content="#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+#define maxn 100005
+#define maxd 20
+int n, m, a[..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -91,49 +94,103 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://e166er123.github.io/gui-bing-shu/">
-                  <h2 class="post-title">归并树</h2>
-                </a>
-                <div class="post-date">
-                  2020-11-19
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
+          <div class="post-detail">
+            <h2 class="post-title">归并树</h2>
+            <div class="post-date">2020-11-19</div>
+            
+            <div class="post-content" v-pre>
+              <pre><code>#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+#define maxn 100005
+#define maxd 20
+int n, m, a[maxn], Merge[maxd][maxn];
+void build(int deep, int l, int r)
+{ //建树
+  if (l == r)
+  {
+    Merge[deep][l] = a[l];
+    return;
+  } //叶子节点
+  int mid = (l + r) &gt;&gt; 1;
+  build(deep + 1, l, mid), build(deep + 1, mid + 1, r); //先构造子节点
+  for (int i = l, j = mid + 1, k = l; i &lt;= mid || j &lt;= r;)
+  { //归并排序构造当前节点
+    if (j &gt; r)
+      Merge[deep][k++] = Merge[deep + 1][i++];
+    else if (i &gt; mid || Merge[deep + 1][i] &gt; Merge[deep + 1][j])
+      Merge[deep][k++] = Merge[deep + 1][j++];
+    else
+      Merge[deep][k++] = Merge[deep + 1][i++];
+  }
+}
+
+int calc(int deep, int L, int R, int l, int r, int x)
+{ //计算[L,R]交[l,r]中小于x的有多少个数
+  if (L &gt;= l &amp;&amp; R &lt;= r)
+  { //[L,R]完全被[l,r]包含,直接二分查找返回
+    return lower_bound(Merge[deep] + L, Merge[deep] + R + 1, x) - Merge[deep] - L;
+  }
+  int mid = (L + R) &gt;&gt; 1, ans = 0; //否则到子节点查找
+  if (mid &gt;= l)
+    ans += calc(deep + 1, L, mid, l, r, x);
+  if (mid &lt; r)
+    ans += calc(deep + 1, mid + 1, R, l, r, x);
+  return ans;
+}
+
+int query(int l, int r, int k)
+{
+  int L = 1, R = n;
+  while (L &lt;= R)
+  { //二分查找答案
+    int mid = (L + R) &gt;&gt; 1, cnt;
+    cnt = calc(0, 1, n, l, r, Merge[0][mid]);
+    if (cnt &lt;= k)
+      L = mid + 1; //&lt;mid的肯定不是答案
+    else
+      R = mid - 1; //&gt;=mid的肯定不是答案
+  }
+  return Merge[0][L - 1]; //L不是答案(R不是答案,L&gt;=R),L-2也不是答案(L=mid+1,mid-1不是答案)，答案肯定是L-1
+}
+
+void work()
+{
+  for (int i = 1; i &lt;= n; i++)
+    scanf(&quot;%d&quot;, a + i);
+  build(0, 1, n);
+  int l, r, k;
+  for (int i = 0; i &lt; m; i++)
+  {
+    scanf(&quot;%d%d%d&quot;, &amp;l, &amp;r, &amp;k);
+    printf(&quot;%d\n&quot;, query(l, r, k - 1));
+  }
+}
+
+int main()
+{
+  while (~scanf(&quot;%d%d&quot;, &amp;n, &amp;m))
+    work();
+  return 0;
+}
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
                 <a href="https://e166er123.github.io/hello-gridea/">
-                  <h2 class="post-title">Hello Gridea</h2>
+                  <h3 class="post-title">
+                    Hello Gridea
+                  </h3>
                 </a>
-                <div class="post-date">
-                  2018-12-12
-                </div>
-                <div class="post-abstract">
-                  <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-
-                </div>
               </div>
-              
-                <a class="right" href="https://e166er123.github.io/hello-gridea/">
-                  <div class="feature-container" style="background-image: url('https://e166er123.github.io/post-images/hello-gridea.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
+            
 
-          <div class="pagination-container">
-  
-  
-</div>
+            
+
+          </div>
 
         </div>
       </div>

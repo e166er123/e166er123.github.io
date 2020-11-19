@@ -22,7 +22,7 @@
     
     <div id=side>
         <div class="avatar-border">
-            <img src="https://e166er123.github.io/images/avatar.png?v=1605775173989" class="avatar">
+            <img src="https://e166er123.github.io/images/avatar.png?v=1605775811138" class="avatar">
         </div>
         <div class="sitename">Gridea</div>
         <span class="describtion" data-text='["温故而知新"]'>&nbsp;</span>
@@ -86,11 +86,46 @@
     <div id="footinfo">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | Theme: <a
         href="https://github.com/850552586/gridea-theme-fog">Fog</a></div>
     
+    <div class="sitetime"><div id="sitegotimeDate">载入天数...</div>
+    <div id="sitegotimes">载入时分秒...</div></div>
+    <div id="cussitetime" style="display:none">02/02/2020</div>
+    
     
     </div>
 
 
 <script src="https://e166er123.github.io/media/js/wordshow.js"></script>
+    
+    <script>
+        //----------------------站点运行时间
+        var now = new Date();
+
+        function createtime() {
+            var sitegotime = document.getElementById("cussitetime").innerHTML + " 00:00:00";
+            var grt = new Date(sitegotime); //此处修改你的建站时间或者网站上线时间
+            now.setTime(now.getTime() + 250);
+            days = (now - grt) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if (String(hnum).length == 1) {
+                hnum = "0" + hnum;
+            }
+            minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if (String(mnum).length == 1) {
+                mnum = "0" + mnum;
+            }
+            seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if (String(snum).length == 1) {
+                snum = "0" + snum;
+            }
+            document.getElementById("sitegotimeDate").innerHTML = "本站已安全运行 " + dnum + " 天 ";
+            document.getElementById("sitegotimes").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+        }
+        setInterval("createtime()", 250);
+    </script>
     
 
 
@@ -324,10 +359,10 @@
     </div>
     <div id="bg">
     </div>
-    <div id="bgchoice" style="display: none">
+    <div id="bgchoice" style="display: none">default
     </div>
             
-            <div id="bgurl" style="display:none"></div>
+            <div id="bgurl" style="display:none">\media\images\custom-bgimage.jpg</div>
              
 
     <!-- 响应式布局，针对手机端内容显示 -->
@@ -449,12 +484,12 @@
             <!-- 移动端欢迎页 -->
 <div class="welcome">
     <div class="avatar-border">
-        <img src="https://e166er123.github.io/images/avatar.png?v=1605775173989" class="avatar">
+        <img src="https://e166er123.github.io/images/avatar.png?v=1605775811138" class="avatar">
     </div>
     <span class="mobiledescribtion"></span>
 </div>
 
-    <div id="mobilebgurl" style="display:none"></div>
+<div id="mobilebgurl" style="display:none">\media\images\custom-mobilebgimage.jpg</div>
 
 <script>
     var welcome = $('.welcome');

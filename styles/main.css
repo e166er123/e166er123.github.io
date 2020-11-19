@@ -2052,14 +2052,14 @@ p > code {
   }
 }
 body {
-      background-color: #eee;
+      background-color: #f8f9fa;
     }.header {
-        width: 1200px;
+        width: 1100px;
         margin: 0 auto;
       }
 
       .main-continer {
-        width: 1200px;
+        width: 1100px;
         margin: 0 auto;
       }
     
@@ -2076,28 +2076,28 @@ body {
       border-bottom-color: #555;
     }
     .archive-timeline-box::after, .tag-timeline-wrapper::after {
-      background: #eeeeeefe;
+      background: #ffd43bfe;
     }h1, h2, h3, h4, h5, h6 {
-      color: #555;
+      color: #212529;
     }
     
     .archive-timeline-title::before {
-      background-color: #555;
+      background-color: #212529;
     }
     
     .post-title-link::before {
-      background-color: #555;
+      background-color: #212529;
     }
     
     .node-title::before {
-      background-color: #555;
+      background-color: #212529;
     }a {
-      color: #555;
+      color: #212529;
     }
     
     .next-md-body a, .friends-box a  {
-      color: #555;
-      border-bottom: 1px solid #555;
+      color: #212529;
+      border-bottom: 1px solid #212529;
     }a:hover {
       color: #222;
     }
@@ -2123,11 +2123,11 @@ body {
       }.nav-item a:hover {
         color: #222;
       }.nav-item-active {
-      background: #f9f9f9fe;
+      background: #e7f5fffe;
     }
 
     .nav-item:hover {
-      background: #f9f9f9fe;
+      background: #e7f5fffe;
       color: rgba(0, 0, 0, 0.98);
     }.site-author-image {
       border-radius: 50%;
@@ -2166,25 +2166,23 @@ body {
       background-color: #fffffffe;
     }
     .site-meta {
-      background: #000 !important;
+      background: #ffc078 !important;
     }
     .head-top-line {
-      background: #000;
+      background: #ffc078;
     }
     .brand {
-      background: #000000fe;
+      background: #ffc078fe;
     }
     .main-title, .brand {
-      color: #FFF !important;
+      color: #f8f9fa !important;
     }
     .mist .site-title i {
-      background: #FFFFFFfe;
+      background: #f8f9fafe;
     }.bg-img img {
         filter: blur(1px)
       }.box-scale > #landlord {
       transform: scale(1);
-    }.box-shadow-wrapper {
-      padding: 10px;
     }body {
       cursor: default;
     }a {

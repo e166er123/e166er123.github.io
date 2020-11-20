@@ -9,7 +9,7 @@
 <meta name="description" content="个人blog">
 <meta name="theme-color" content="#ffc078">
 <title>Treap | E166ER&#39;s Blog</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1605835531745">
+<link rel="shortcut icon" href="/favicon.ico?v=1605835807184">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -555,7 +555,7 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>1181<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>1192<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
@@ -779,15 +779,15 @@ e.g.左旋a节点
 <ul>
 <li>当前节点为空节点，建立节点</li>
 <li>插入值 &gt;= 当前节点值，插入右子树，回溯时检验修正值，不满足小根堆执行左旋</li>
-<li>插入值 &lt; 当前节点值，左子树，回溯时检验，不满足，右旋</li>
+<li>插入值 &lt; 当前节点值，左子树，回溯检验，不满足，右旋</li>
 </ul>
 </li>
 <li>删除
 <ul>
-<li>若删除节点为链节点或叶节点，删除当前节点，为链节点时返回非空节点</li>
+<li>若删除节点为链节点或叶节点，删除当前节点，为链节点时返回儿子非空节点</li>
 <li>若该节点存在两个非空儿子，通过旋转将该节点旋转为可直接删除节点</li>
 <li>旋转逻辑，左子修正值 &lt;= 右子，右旋，访问右子节点</li>
-<li>左子 &gt; 右子，左旋，访问左子节点</li>
+<li>左子 &gt; 右子，左旋，访问左子节点  (朝修正值大的一方旋转)</li>
 </ul>
 </li>
 <li>找值
@@ -2084,15 +2084,15 @@ e.g.左旋a节点
 &lt;ul&gt;
 &lt;li&gt;当前节点为空节点，建立节点&lt;/li&gt;
 &lt;li&gt;插入值 &amp;gt;= 当前节点值，插入右子树，回溯时检验修正值，不满足小根堆执行左旋&lt;/li&gt;
-&lt;li&gt;插入值 &amp;lt; 当前节点值，左子树，回溯时检验，不满足，右旋&lt;/li&gt;
+&lt;li&gt;插入值 &amp;lt; 当前节点值，左子树，回溯检验，不满足，右旋&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;删除
 &lt;ul&gt;
-&lt;li&gt;若删除节点为链节点或叶节点，删除当前节点，为链节点时返回非空节点&lt;/li&gt;
+&lt;li&gt;若删除节点为链节点或叶节点，删除当前节点，为链节点时返回儿子非空节点&lt;/li&gt;
 &lt;li&gt;若该节点存在两个非空儿子，通过旋转将该节点旋转为可直接删除节点&lt;/li&gt;
 &lt;li&gt;旋转逻辑，左子修正值 &amp;lt;= 右子，右旋，访问右子节点&lt;/li&gt;
-&lt;li&gt;左子 &amp;gt; 右子，左旋，访问左子节点&lt;/li&gt;
+&lt;li&gt;左子 &amp;gt; 右子，左旋，访问左子节点  (朝修正值大的一方旋转)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;找值

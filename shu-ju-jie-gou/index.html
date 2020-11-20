@@ -9,7 +9,7 @@
 <meta name="description" content="个人blog">
 <meta name="theme-color" content="#ffc078">
 <title>数据结构汇总 | E166ER&#39;s Blog</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1605795938955">
+<link rel="shortcut icon" href="/favicon.ico?v=1605834869210">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -65,7 +65,7 @@
           
         </div>
         
-          <p class="subtitle">人行自走wa机</p>
+          <p class="subtitle">人行自走wawa机</p>
         
       </div>
       <nav class="site-nav" id="site_nav">
@@ -1847,18 +1847,29 @@ int main()
 */
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;基础知识&#34;&gt;基础知识&lt;/h2&gt;
-&lt;p&gt;Treap本质是一颗笛卡尔树，维护值是二叉树，修正值为小根堆，由于修正值是随机生成的，所以treap是趋于随机平衡的。&lt;/p&gt;
+&lt;p&gt;Treap本质是一颗笛卡尔树，维护的值构成二叉树，修正值构成小根堆，由于修正值是随机生成的，所以treap是趋于随机平衡的。&lt;br&gt;
+&lt;br&gt;&lt;/p&gt;
 &lt;h3 id=&#34;变量声明及函数&#34;&gt;变量声明及函数&lt;/h3&gt;
-&lt;p&gt;ls[N]，rs[N]：i点的左右儿子&lt;br&gt;
-val[N]，rnd[N]，sz[N]，cnt[N]&lt;br&gt;
-tot，ans，rt&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ls[N]，rs[N]：i点的左右儿子&lt;/li&gt;
+&lt;li&gt;val[N]，rnd[N]，sz[N]，cnt[N]：权值，修正值，以i为子树的大小，i的数量&lt;/li&gt;
+&lt;li&gt;tot，rt：最大节点号，根节点&lt;/li&gt;
+&lt;li&gt;lrotate(int &amp;amp;k)，rrotate(int &amp;amp;k)，左旋，右旋k节点(旋转后更新k值)&lt;/li&gt;
+&lt;li&gt;insert(int &amp;amp;k, int x)，在以k为root的子树中插入权值x&lt;/li&gt;
+&lt;li&gt;del(int &amp;amp;k, int x)，删除x&lt;/li&gt;
+&lt;li&gt;queryrank(int k, int x)，查询x的排名&lt;/li&gt;
+&lt;li&gt;querynum(int k, int x)，查询排名为x的数&lt;/li&gt;
+&lt;li&gt;querypre(int k, int x)，x直接前继&lt;/li&gt;
+&lt;li&gt;querysub(int k, int x)，x直接后继&lt;br&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&#34;旋转&#34;&gt;旋转&lt;/h3&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;a href=&#34;https://imgchr.com/i/DKLouV&#34;&gt;&lt;img src=&#34;https://s3.ax1x.com/2020/11/19/DKLouV.png&#34; alt=&#34;DKLouV.png&#34; loading=&#34;lazy&#34;&gt;&lt;/a&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;a href=&#34;https://imgchr.com/i/DKLouV&#34;&gt;&lt;img src=&#34;https://s3.ax1x.com/2020/11/19/DKLouV.png&#34; alt=&#34;DKLouV.png&#34; loading=&#34;lazy&#34;&gt;&lt;/a&gt;&lt;br&gt;
+&lt;br&gt;&lt;/p&gt;
 &lt;h3 id=&#34;基础操作&#34;&gt;基础操作&lt;/h3&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;旋转&lt;br&gt;
-e.g.左旋a节点&lt;/p&gt;
+&lt;li&gt;旋转&lt;br&gt;
+e.g.左旋a节点
 &lt;ul&gt;
 &lt;li&gt;令b为a的右子&lt;/li&gt;
 &lt;li&gt;a右子指向b左子&lt;/li&gt;
@@ -1866,16 +1877,14 @@ e.g.左旋a节点&lt;/p&gt;
 &lt;li&gt;更新a值&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;插入&lt;/p&gt;
+&lt;li&gt;插入
 &lt;ul&gt;
 &lt;li&gt;当前节点为空节点，建立节点&lt;/li&gt;
 &lt;li&gt;插入值 &amp;gt;= 当前节点值，插入右子树，回溯时检验修正值，不满足小根堆执行左旋&lt;/li&gt;
 &lt;li&gt;插入值 &amp;lt; 当前节点值，左子树，回溯时检验，不满足，右旋&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;删除&lt;/p&gt;
+&lt;li&gt;删除
 &lt;ul&gt;
 &lt;li&gt;若删除节点为链节点或叶节点，删除当前节点，为链节点时返回非空节点&lt;/li&gt;
 &lt;li&gt;若该节点存在两个非空儿子，通过旋转将该节点旋转为可直接删除节点&lt;/li&gt;
@@ -1883,23 +1892,38 @@ e.g.左旋a节点&lt;/p&gt;
 &lt;li&gt;左子 &amp;gt; 右子，左旋，访问左子节点&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;找值&lt;/p&gt;
+&lt;li&gt;找值
+&lt;ul&gt;
+&lt;li&gt;同二叉搜索树&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;中序访问&lt;/p&gt;
+&lt;li&gt;中序访问
 &lt;ul&gt;
 &lt;li&gt;左根右&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;前驱与后继&lt;/p&gt;
+&lt;li&gt;前驱与后继
+&lt;ul&gt;
+&lt;li&gt;贪心，前驱即x前节点中的最大值，val[k] &amp;lt; x 找右子，否者左子&lt;/li&gt;
+&lt;li&gt;后继，val[k] &amp;gt; x 找左子，否者右子&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;查找第k大&lt;/p&gt;
+&lt;li&gt;查询排名为x的数
+&lt;ul&gt;
+&lt;li&gt;找某数前恰好有k - 1个数&lt;/li&gt;
+&lt;li&gt;递归到空节点，查找失败&lt;/li&gt;
+&lt;li&gt;x &amp;lt;= 左子sz，递归左子&lt;/li&gt;
+&lt;li&gt;x &amp;gt; 左子sz + k节点本身数量，递归右子&lt;/li&gt;
+&lt;li&gt;否者当前节点即为所求&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;求元素排名&lt;/p&gt;
+&lt;li&gt;查询x的排名
+&lt;ul&gt;
+&lt;li&gt;查小于x的节点数量 + 1&lt;/li&gt;
+&lt;li&gt;val[k] == k，返回k节点左子数 + 1&lt;/li&gt;
+&lt;li&gt;若val[k] &amp;lt; x，ans += k节点sz + k本身sz，递归右子&lt;/li&gt;
+&lt;li&gt;否者递归左子&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 ">Treap</a>

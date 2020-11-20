@@ -8,7 +8,7 @@
 <meta name="keywords" content="个人博客">
 <meta name="description" content="个人blog">
 <meta name="theme-color" content="#ffc078">
-<title>归并树 | E166ER&#39;s Blog</title>
+<title>2016 ccpc 杭州 | E166ER&#39;s Blog</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1605878235590">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,7 +38,7 @@
 
 
 
-  <meta name="description" content="归并树" />
+  <meta name="description" content="2016 ccpc 杭州" />
   <meta name="keywords" content="" />
 </head>
 
@@ -190,7 +190,8 @@
       <div class="sidebar-body gemini" id="sidebar_body">
         
           
-            
+            <div class="post-side-meta" id="post_side_meta">
+              
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -238,6 +239,197 @@
   </div>
 
 </div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#a-arcsofts-office-rearrangement">a - ArcSoft's Office Rearrangement</a></li>
+<li><a href="#c-car">c - Car</a></li>
+<li><a href="#f-four-operations">f - Four Operations</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
+      }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
+    });
+  }
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
           
         
       </div>
@@ -325,8 +517,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://e166er123.github.io/gui-bing-shu/">
-      归并树
+    <a class="post-title-link" href="https://e166er123.github.io/2016-ccpc-hang-zhou/">
+      2016 ccpc 杭州
     </a>
   </h1>
   <div class="post-meta">
@@ -334,98 +526,252 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-11-19 16:56:24">2020-11-19</span>
+      <span class="publish-time" data-t="2020-11-20 20:54:58">2020-11-20</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>3<span class="language" data-lan="minute">分钟</span></span>
+      <span>8<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>448<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>1305<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p>归并树是线段树和归并排序的合成</p>
-<pre><code>#include &lt;cstdio&gt;
-#include &lt;algorithm&gt;
+              <p><a href="http://acm.hdu.edu.cn/search.php?field=problem&amp;key=2016%C4%EA%D6%D0%B9%FA%B4%F3%D1%A7%C9%FA%B3%CC%D0%F2%C9%E8%BC%C6%BE%BA%C8%FC%A3%A8%BA%BC%D6%DD%A3%A9&amp;source=1&amp;searchmode=source">2016年中国大学生程序设计竞赛（杭州）</a></p>
+<h2 id="a-arcsofts-office-rearrangement">a - ArcSoft's Office Rearrangement</h2>
+<p>水题<br>
+题意：n个块，两种操作，合并相邻块或者分解该块，目标能否将m块分解为k块且每块都相同，能输出最小步数，否输出-1</p>
+<pre><code class="language-c">#pragma GCC target(&quot;popcnt&quot;)
+#include &lt;bits/stdc++.h&gt;
 using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&lt;int, int&gt; pii;
+typedef pair&lt;ll, ll&gt; pll;
+#define forn(i, s, t) for (register int i = (int)s; i &lt;= (int)t; ++i)
+#define rforn(i, s, t) for (register int i = (int)s; i &gt;= t; --i)
+#define dbg(x) cerr &lt;&lt; &quot;L&quot; &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot; &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; x &lt;&lt; endl
+#define sci(x) scanf(&quot;%d&quot;, &amp;x)
+#define scl(x) scanf(&quot;%lld&quot;, &amp;x)
+#define pri(x) printf(&quot;%d&quot;, x)
+#define prin(x) printf(&quot;%d\n&quot;, x)
+#define prl(x) printf(&quot;%lld&quot;, x)
+#define prln(x) printf(&quot;%lld\n&quot;, x)
+#define lson p &lt;&lt; 1
+#define rson p &lt;&lt; 1 | 1
+#define mp make_pair
+#define pb push_back
+#define IO ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define lowbit(x) (1 &lt;&lt; __builtin_ctz(x))
+#define IL inline
+const double PI = acos(-1.0);
+const int N = 1e5 + 100;
+const int M = 4010;
+const int D = 1e6 + 100;
+const ll mod = 1e9 + 7;
+const int P = 233;
+const ll inf = 2000000000;
+const int HASH = 23068673;
+const double eps = 1e-10;
+IL int inc(int a, int b) { return a + b &gt;= mod ? a + b - mod : a + b; }
+IL int sgn(double a) { return a &lt; -eps ? -1 : a &lt; eps ? 0 : 1; }
 
-#define maxn 100005
-#define maxd 20
-int n, m, a[maxn], Merge[maxd][maxn];
-void build(int deep, int l, int r)
-{ //建树
-  if (l == r)
-  {
-    Merge[deep][l] = a[l];
-    return;
-  } //叶子节点
-  int mid = (l + r) &gt;&gt; 1;
-  build(deep + 1, l, mid), build(deep + 1, mid + 1, r); //先构造子节点
-  for (int i = l, j = mid + 1, k = l; i &lt;= mid || j &lt;= r;)
-  { //归并排序构造当前节点
-    if (j &gt; r)
-      Merge[deep][k++] = Merge[deep + 1][i++];
-    else if (i &gt; mid || Merge[deep + 1][i] &gt; Merge[deep + 1][j])
-      Merge[deep][k++] = Merge[deep + 1][j++];
-    else
-      Merge[deep][k++] = Merge[deep + 1][i++];
-  }
-}
-
-int calc(int deep, int L, int R, int l, int r, int x)
-{ //计算[L,R]交[l,r]中小于x的有多少个数
-  if (L &gt;= l &amp;&amp; R &lt;= r)
-  { //[L,R]完全被[l,r]包含,直接二分查找返回
-    return lower_bound(Merge[deep] + L, Merge[deep] + R + 1, x) - Merge[deep] - L;
-  }
-  int mid = (L + R) &gt;&gt; 1, ans = 0; //否则到子节点查找
-  if (mid &gt;= l)
-    ans += calc(deep + 1, L, mid, l, r, x);
-  if (mid &lt; r)
-    ans += calc(deep + 1, mid + 1, R, l, r, x);
-  return ans;
-}
-
-int query(int l, int r, int k)
-{
-  int L = 1, R = n;
-  while (L &lt;= R)
-  { //二分查找答案
-    int mid = (L + R) &gt;&gt; 1, cnt;
-    cnt = calc(0, 1, n, l, r, Merge[0][mid]);
-    if (cnt &lt;= k)
-      L = mid + 1; //&lt;mid的肯定不是答案
-    else
-      R = mid - 1; //&gt;=mid的肯定不是答案
-  }
-  return Merge[0][L - 1]; //L不是答案(R不是答案,L&gt;=R),L-2也不是答案(L=mid+1,mid-1不是答案)，答案肯定是L-1
-}
-
-void work()
-{
-  for (int i = 1; i &lt;= n; i++)
-    scanf(&quot;%d&quot;, a + i);
-  build(0, 1, n);
-  int l, r, k;
-  for (int i = 0; i &lt; m; i++)
-  {
-    scanf(&quot;%d%d%d&quot;, &amp;l, &amp;r, &amp;k);
-    printf(&quot;%d\n&quot;, query(l, r, k - 1));
-  }
-}
-
+int a[N];
 int main()
 {
-  while (~scanf(&quot;%d%d&quot;, &amp;n, &amp;m))
-    work();
-  return 0;
+  int T;
+  sci(T);
+  forn(ttt, 1, T)
+  {
+    int n, m;
+    sci(n), sci(m);
+    ll sum = 0;
+    forn(i, 1, n) sci(a[i]), sum += a[i];
+    ll t1 = sum / m;
+    if (t1 * m != sum)
+    {
+      printf(&quot;Case #%d: -1\n&quot;, ttt);
+      continue;
+    }
+    ll last = 0, ans = 0;
+    forn(i, 1, n)
+    {
+      if (last != 0) ++ ans;
+      last += a[i];
+      if (last &gt;= t1)
+        {
+          if (last % t1 == 0)
+            ans += last / t1 - 1;
+          else
+            ans += last / t1;
+          last %= t1;
+        }
+    }
+    printf(&quot;Case #%d: %lld\n&quot;, ttt, ans);
+  }
+}
+</code></pre>
+<br>
+<h2 id="c-car">c - Car</h2>
+<p>水题<br>
+题意：一辆速度不会下降的汽车，告诉n个整数时间点的速度(保证递增)，求通过最后端点的最小时间</p>
+<pre><code class="language-c">#pragma GCC target(&quot;popcnt&quot;)
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&lt;int, int&gt; pii;
+typedef pair&lt;ll, ll&gt; pll;
+#define forn(i, s, t) for (register int i = (int)s; i &lt;= (int)t; ++i)
+#define rforn(i, s, t) for (register int i = (int)s; i &gt;= t; --i)
+#define dbg(x) cerr &lt;&lt; &quot;L&quot; &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot; &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; x &lt;&lt; endl
+#define sci(x) scanf(&quot;%d&quot;, &amp;x)
+#define scl(x) scanf(&quot;%lld&quot;, &amp;x)
+#define pri(x) printf(&quot;%d&quot;, x)
+#define prin(x) printf(&quot;%d\n&quot;, x)
+#define prl(x) printf(&quot;%lld&quot;, x)
+#define prln(x) printf(&quot;%lld\n&quot;, x)
+#define lson p &lt;&lt; 1
+#define rson p &lt;&lt; 1 | 1
+#define mp make_pair
+#define pb push_back
+#define IO ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define lowbit(x) (1 &lt;&lt; __builtin_ctz(x))
+#define IL inline
+const double PI = acos(-1.0);
+const int N = 1e5 + 100;
+const int M = 4010;
+const int D = 1e6 + 100;
+const ll mod = 1e9 + 7;
+const int P = 233;
+const ll inf = 2000000000;
+const int HASH = 23068673;
+const double eps = 1e-2;
+IL int inc(int a, int b) { return a + b &gt;= mod ? a + b - mod : a + b; }
+IL int sgn(double a) { return a &lt; -eps ? -1 : a &lt; eps ? 0 : 1; }
+
+ll a[N], b[N], ans;
+int main()
+{
+  int T, n;
+  cin &gt;&gt; T;
+  forn(ttt, 1, T)
+  {
+    sci(n);
+    ans = n;
+    forn(i, 1, n) scl(a[i]), b[i] = a[i] - a[i - 1];
+
+    ll last = 1e12, div = 1;
+    rforn(i, n, 1)
+    {
+      if (last == b[i] * div)
+        continue;
+      else if (last &gt; b[i] * div)
+      {
+        last = b[i];
+        div = 1;
+      }
+      else
+      {
+        ll t2 = b[i] * div / last;
+        if (b[i] * div != t2 * last)
+          ++t2;
+        last = b[i];
+        div = t2;
+        ans += (t2 - 1);
+      }
+    }
+    printf(&quot;Case #%d: %lld\n&quot;, ttt, ans);
+  }
+}
+</code></pre>
+<br>
+<h2 id="f-four-operations">f - Four Operations</h2>
+<p>水题<br>
+题意在一个字符串中按+-*/(/为整除)顺序插入运算符，求最大的计算值</p>
+<pre><code class="language-c">#pragma GCC target(&quot;popcnt&quot;)
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&lt;int, int&gt; pii;
+typedef pair&lt;ll, ll&gt; pll;
+#define forn(i, s, t) for (register int i = (int)s; i &lt;= (int)t; ++i)
+#define rforn(i, s, t) for (register int i = (int)s; i &gt;= t; --i)
+#define dbg(x) cerr &lt;&lt; &quot;L&quot; &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot; &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; x &lt;&lt; endl
+#define sci(x) scanf(&quot;%d&quot;, &amp;x)
+#define scl(x) scanf(&quot;%lld&quot;, &amp;x)
+#define pri(x) printf(&quot;%d&quot;, x)
+#define prin(x) printf(&quot;%d\n&quot;, x)
+#define prl(x) printf(&quot;%lld&quot;, x)
+#define prln(x) printf(&quot;%lld\n&quot;, x)
+#define lson p &lt;&lt; 1
+#define rson p &lt;&lt; 1 | 1
+#define mp make_pair
+#define pb push_back
+#define IO ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define lowbit(x) (1 &lt;&lt; __builtin_ctz(x))
+#define IL inline
+const double PI = acos(-1.0);
+const int N = 1e5 + 100;
+const int M = 4010;
+const int D = 1e6 + 100;
+const ll mod = 1e9 + 7;
+const int P = 233;
+const ll inf = 2000000000;
+const int HASH = 23068673;
+const double eps = 1e-10;
+IL int inc(int a, int b) { return a + b &gt;= mod ? a + b - mod : a + b; }
+IL int sgn(double a) { return a &lt; -eps ? -1 : a &lt; eps ? 0 : 1; }
+
+char a[50];
+int main()
+{
+  int T;
+  sci(T);
+  forn(ttt, 1, T)
+  {
+    scanf(&quot;%s&quot;, a + 1);
+    int n = strlen(a + 1);
+    int t3 = a[n] - '0', t2 = a[n - 1] - '0', t1 = a[n - 2] - '0';
+    ll a1 = 0, b1 = a[n - 3] - '0';
+    forn(i, 1, n - 4)
+    {
+      a1 *= 10;
+      a1 += a[i] - '0';
+    }
+    ll a2 = 0, b2 = a[1] - '0';
+    forn(i, 2, n - 3)
+    {
+      a2 *= 10;
+      a2 += a[i] - '0';
+    }
+    ll mmp1 = max(a1 + b1 - t1 * t2 / t3, b2 + a2 - t1 * t2 / t3), mmp2 = -1e12;
+    if (n &gt;= 6)
+    {
+      int t3 = a[n] - '0' + (a[n - 1] - '0') * 10, t2 = a[n - 2] - '0', t1 = a[n - 3] - '0';
+      ll a1 = 0, b1 = a[n - 4] - '0';
+      forn(i, 1, n - 5)
+      {
+        a1 *= 10;
+        a1 += a[i] - '0';
+      }
+      ll a2 = 0, b2 = a[1] - '0';
+      forn(i, 2, n - 4)
+      {
+        a2 *= 10;
+        a2 += a[i] - '0';
+      }
+      mmp2 = max(a1 + b1 - t1 * t2 / t3, b2 + a2 - t1 * t2 / t3);
+    }
+    printf(&quot;Case #%d: %lld\n&quot;, ttt, max(mmp1, mmp2));
+  }
 }
 </code></pre>
 
@@ -440,7 +786,7 @@ int main()
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://e166er123.github.io/gui-bing-shu/" title="归并树">https://e166er123.github.io/gui-bing-shu/</a>
+      <a href="https://e166er123.github.io/2016-ccpc-hang-zhou/" title="2016 ccpc 杭州">https://e166er123.github.io/2016-ccpc-hang-zhou/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -453,12 +799,12 @@ int main()
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="数据结构汇总" href="https://e166er123.github.io/shu-ju-jie-gou/">数据结构汇总</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="数据结构汇总" href="https://e166er123.github.io/shu-ju-jie-gou/">上一篇</a>
-      
     </div>
     <div class="nav-next">
+      
+        <a class="nav-pc-next" title="Dancing Links X（跳舞链）" href="https://e166er123.github.io/dancing-links-xwu-dao-lian/">Dancing Links X（跳舞链）</a>
+        <a class="nav-mobile-next" title="Dancing Links X（跳舞链）" href="https://e166er123.github.io/dancing-links-xwu-dao-lian/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>

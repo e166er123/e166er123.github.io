@@ -9,7 +9,7 @@
 <meta name="description" content="个人blog">
 <meta name="theme-color" content="#ffc078">
 <title>Treap | E166ER&#39;s Blog</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1605835807184">
+<link rel="shortcut icon" href="/favicon.ico?v=1605878235590">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -202,7 +202,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">3</span>
+        <span class="site-item-stat-count">5</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -850,6 +850,10 @@ e.g.左旋a节点
   </div>
   <div class="nav">
     <div class="nav-prev">
+      
+        <i class="fa fa-chevron-left"></i>
+        <a class="nav-pc-next" title="Dancing Links X（跳舞链）" href="https://e166er123.github.io/dancing-links-xwu-dao-lian/">Dancing Links X（跳舞链）</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="Dancing Links X（跳舞链）" href="https://e166er123.github.io/dancing-links-xwu-dao-lian/">上一篇</a>
       
     </div>
     <div class="nav-next">
@@ -1863,6 +1867,393 @@ e.g.左旋a节点
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://e166er123.github.io/2016-ccpc-hang-zhou/"" data-c="
+          &lt;p&gt;&lt;a href=&#34;http://acm.hdu.edu.cn/search.php?field=problem&amp;amp;key=2016%C4%EA%D6%D0%B9%FA%B4%F3%D1%A7%C9%FA%B3%CC%D0%F2%C9%E8%BC%C6%BE%BA%C8%FC%A3%A8%BA%BC%D6%DD%A3%A9&amp;amp;source=1&amp;amp;searchmode=source&#34;&gt;2016年中国大学生程序设计竞赛（杭州）&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;a-arcsofts-office-rearrangement&#34;&gt;a - ArcSoft&#39;s Office Rearrangement&lt;/h2&gt;
+&lt;p&gt;水题&lt;br&gt;
+题意：n个块，两种操作，合并相邻块或者分解该块，目标能否将m块分解为k块且每块都相同，能输出最小步数，否输出-1&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;#pragma GCC target(&amp;quot;popcnt&amp;quot;)
+#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&amp;lt;int, int&amp;gt; pii;
+typedef pair&amp;lt;ll, ll&amp;gt; pll;
+#define forn(i, s, t) for (register int i = (int)s; i &amp;lt;= (int)t; ++i)
+#define rforn(i, s, t) for (register int i = (int)s; i &amp;gt;= t; --i)
+#define dbg(x) cerr &amp;lt;&amp;lt; &amp;quot;L&amp;quot; &amp;lt;&amp;lt; __LINE__ &amp;lt;&amp;lt; &amp;quot;: &amp;quot; &amp;lt;&amp;lt; #x &amp;lt;&amp;lt; &amp;quot; = &amp;quot; &amp;lt;&amp;lt; x &amp;lt;&amp;lt; endl
+#define sci(x) scanf(&amp;quot;%d&amp;quot;, &amp;amp;x)
+#define scl(x) scanf(&amp;quot;%lld&amp;quot;, &amp;amp;x)
+#define pri(x) printf(&amp;quot;%d&amp;quot;, x)
+#define prin(x) printf(&amp;quot;%d\n&amp;quot;, x)
+#define prl(x) printf(&amp;quot;%lld&amp;quot;, x)
+#define prln(x) printf(&amp;quot;%lld\n&amp;quot;, x)
+#define lson p &amp;lt;&amp;lt; 1
+#define rson p &amp;lt;&amp;lt; 1 | 1
+#define mp make_pair
+#define pb push_back
+#define IO ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define lowbit(x) (1 &amp;lt;&amp;lt; __builtin_ctz(x))
+#define IL inline
+const double PI = acos(-1.0);
+const int N = 1e5 + 100;
+const int M = 4010;
+const int D = 1e6 + 100;
+const ll mod = 1e9 + 7;
+const int P = 233;
+const ll inf = 2000000000;
+const int HASH = 23068673;
+const double eps = 1e-10;
+IL int inc(int a, int b) { return a + b &amp;gt;= mod ? a + b - mod : a + b; }
+IL int sgn(double a) { return a &amp;lt; -eps ? -1 : a &amp;lt; eps ? 0 : 1; }
+
+int a[N];
+int main()
+{
+  int T;
+  sci(T);
+  forn(ttt, 1, T)
+  {
+    int n, m;
+    sci(n), sci(m);
+    ll sum = 0;
+    forn(i, 1, n) sci(a[i]), sum += a[i];
+    ll t1 = sum / m;
+    if (t1 * m != sum)
+    {
+      printf(&amp;quot;Case #%d: -1\n&amp;quot;, ttt);
+      continue;
+    }
+    ll last = 0, ans = 0;
+    forn(i, 1, n)
+    {
+      if (last != 0) ++ ans;
+      last += a[i];
+      if (last &amp;gt;= t1)
+        {
+          if (last % t1 == 0)
+            ans += last / t1 - 1;
+          else
+            ans += last / t1;
+          last %= t1;
+        }
+    }
+    printf(&amp;quot;Case #%d: %lld\n&amp;quot;, ttt, ans);
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;c-car&#34;&gt;c - Car&lt;/h2&gt;
+&lt;p&gt;水题&lt;br&gt;
+题意：一辆速度不会下降的汽车，告诉n个整数时间点的速度(保证递增)，求通过最后端点的最小时间&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;#pragma GCC target(&amp;quot;popcnt&amp;quot;)
+#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&amp;lt;int, int&amp;gt; pii;
+typedef pair&amp;lt;ll, ll&amp;gt; pll;
+#define forn(i, s, t) for (register int i = (int)s; i &amp;lt;= (int)t; ++i)
+#define rforn(i, s, t) for (register int i = (int)s; i &amp;gt;= t; --i)
+#define dbg(x) cerr &amp;lt;&amp;lt; &amp;quot;L&amp;quot; &amp;lt;&amp;lt; __LINE__ &amp;lt;&amp;lt; &amp;quot;: &amp;quot; &amp;lt;&amp;lt; #x &amp;lt;&amp;lt; &amp;quot; = &amp;quot; &amp;lt;&amp;lt; x &amp;lt;&amp;lt; endl
+#define sci(x) scanf(&amp;quot;%d&amp;quot;, &amp;amp;x)
+#define scl(x) scanf(&amp;quot;%lld&amp;quot;, &amp;amp;x)
+#define pri(x) printf(&amp;quot;%d&amp;quot;, x)
+#define prin(x) printf(&amp;quot;%d\n&amp;quot;, x)
+#define prl(x) printf(&amp;quot;%lld&amp;quot;, x)
+#define prln(x) printf(&amp;quot;%lld\n&amp;quot;, x)
+#define lson p &amp;lt;&amp;lt; 1
+#define rson p &amp;lt;&amp;lt; 1 | 1
+#define mp make_pair
+#define pb push_back
+#define IO ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define lowbit(x) (1 &amp;lt;&amp;lt; __builtin_ctz(x))
+#define IL inline
+const double PI = acos(-1.0);
+const int N = 1e5 + 100;
+const int M = 4010;
+const int D = 1e6 + 100;
+const ll mod = 1e9 + 7;
+const int P = 233;
+const ll inf = 2000000000;
+const int HASH = 23068673;
+const double eps = 1e-2;
+IL int inc(int a, int b) { return a + b &amp;gt;= mod ? a + b - mod : a + b; }
+IL int sgn(double a) { return a &amp;lt; -eps ? -1 : a &amp;lt; eps ? 0 : 1; }
+
+ll a[N], b[N], ans;
+int main()
+{
+  int T, n;
+  cin &amp;gt;&amp;gt; T;
+  forn(ttt, 1, T)
+  {
+    sci(n);
+    ans = n;
+    forn(i, 1, n) scl(a[i]), b[i] = a[i] - a[i - 1];
+
+    ll last = 1e12, div = 1;
+    rforn(i, n, 1)
+    {
+      if (last == b[i] * div)
+        continue;
+      else if (last &amp;gt; b[i] * div)
+      {
+        last = b[i];
+        div = 1;
+      }
+      else
+      {
+        ll t2 = b[i] * div / last;
+        if (b[i] * div != t2 * last)
+          ++t2;
+        last = b[i];
+        div = t2;
+        ans += (t2 - 1);
+      }
+    }
+    printf(&amp;quot;Case #%d: %lld\n&amp;quot;, ttt, ans);
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;f-four-operations&#34;&gt;f - Four Operations&lt;/h2&gt;
+&lt;p&gt;水题&lt;br&gt;
+题意在一个字符串中按+-*/(/为整除)顺序插入运算符，求最大的计算值&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;#pragma GCC target(&amp;quot;popcnt&amp;quot;)
+#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&amp;lt;int, int&amp;gt; pii;
+typedef pair&amp;lt;ll, ll&amp;gt; pll;
+#define forn(i, s, t) for (register int i = (int)s; i &amp;lt;= (int)t; ++i)
+#define rforn(i, s, t) for (register int i = (int)s; i &amp;gt;= t; --i)
+#define dbg(x) cerr &amp;lt;&amp;lt; &amp;quot;L&amp;quot; &amp;lt;&amp;lt; __LINE__ &amp;lt;&amp;lt; &amp;quot;: &amp;quot; &amp;lt;&amp;lt; #x &amp;lt;&amp;lt; &amp;quot; = &amp;quot; &amp;lt;&amp;lt; x &amp;lt;&amp;lt; endl
+#define sci(x) scanf(&amp;quot;%d&amp;quot;, &amp;amp;x)
+#define scl(x) scanf(&amp;quot;%lld&amp;quot;, &amp;amp;x)
+#define pri(x) printf(&amp;quot;%d&amp;quot;, x)
+#define prin(x) printf(&amp;quot;%d\n&amp;quot;, x)
+#define prl(x) printf(&amp;quot;%lld&amp;quot;, x)
+#define prln(x) printf(&amp;quot;%lld\n&amp;quot;, x)
+#define lson p &amp;lt;&amp;lt; 1
+#define rson p &amp;lt;&amp;lt; 1 | 1
+#define mp make_pair
+#define pb push_back
+#define IO ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define lowbit(x) (1 &amp;lt;&amp;lt; __builtin_ctz(x))
+#define IL inline
+const double PI = acos(-1.0);
+const int N = 1e5 + 100;
+const int M = 4010;
+const int D = 1e6 + 100;
+const ll mod = 1e9 + 7;
+const int P = 233;
+const ll inf = 2000000000;
+const int HASH = 23068673;
+const double eps = 1e-10;
+IL int inc(int a, int b) { return a + b &amp;gt;= mod ? a + b - mod : a + b; }
+IL int sgn(double a) { return a &amp;lt; -eps ? -1 : a &amp;lt; eps ? 0 : 1; }
+
+char a[50];
+int main()
+{
+  int T;
+  sci(T);
+  forn(ttt, 1, T)
+  {
+    scanf(&amp;quot;%s&amp;quot;, a + 1);
+    int n = strlen(a + 1);
+    int t3 = a[n] - &#39;0&#39;, t2 = a[n - 1] - &#39;0&#39;, t1 = a[n - 2] - &#39;0&#39;;
+    ll a1 = 0, b1 = a[n - 3] - &#39;0&#39;;
+    forn(i, 1, n - 4)
+    {
+      a1 *= 10;
+      a1 += a[i] - &#39;0&#39;;
+    }
+    ll a2 = 0, b2 = a[1] - &#39;0&#39;;
+    forn(i, 2, n - 3)
+    {
+      a2 *= 10;
+      a2 += a[i] - &#39;0&#39;;
+    }
+    ll mmp1 = max(a1 + b1 - t1 * t2 / t3, b2 + a2 - t1 * t2 / t3), mmp2 = -1e12;
+    if (n &amp;gt;= 6)
+    {
+      int t3 = a[n] - &#39;0&#39; + (a[n - 1] - &#39;0&#39;) * 10, t2 = a[n - 2] - &#39;0&#39;, t1 = a[n - 3] - &#39;0&#39;;
+      ll a1 = 0, b1 = a[n - 4] - &#39;0&#39;;
+      forn(i, 1, n - 5)
+      {
+        a1 *= 10;
+        a1 += a[i] - &#39;0&#39;;
+      }
+      ll a2 = 0, b2 = a[1] - &#39;0&#39;;
+      forn(i, 2, n - 4)
+      {
+        a2 *= 10;
+        a2 += a[i] - &#39;0&#39;;
+      }
+      mmp2 = max(a1 + b1 - t1 * t2 / t3, b2 + a2 - t1 * t2 / t3);
+    }
+    printf(&amp;quot;Case #%d: %lld\n&amp;quot;, ttt, max(mmp1, mmp2));
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+">2016 ccpc 杭州</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://e166er123.github.io/dancing-links-xwu-dao-lian/"" data-c="
+          &lt;h2 id=&#34;数组形模板&#34;&gt;数组形模板&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://hihocoder.com/problemset/problem/1317?sid=1595288&#34;&gt;hiho一下 跳舞链&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+const int N = 2000 + 100, M = 610000 + 100;
+
+int a[N];
+struct node
+{
+  int l, r, u, d, row, col;
+};
+
+struct Dlx
+{
+  node p[M];
+  int tot, sz[N], last[N];
+  inline void make(int l, int r, int u, int d, int row, int col) { p[tot].l = l, p[tot].r = r, p[tot].u = u, p[tot].d = d, p[tot].row = row, p[tot].col = col; }
+  inline void uddel(int x) { p[p[x].u].d = p[x].d, p[p[x].d].u = p[x].u; }
+  inline void udres(int x) { p[p[x].u].d = p[p[x].d].u = x; }
+  inline void lrdel(int x) { p[p[x].l].r = p[x].r, p[p[x].r].l = p[x].l; }
+  inline void lrres(int x) { p[p[x].l].r = p[p[x].r].l = x; }
+  inline void initrow(int n)
+  {
+    tot = 0;
+    make(0, 0, 0, 0, 0, 0);
+    for (int i = 1; i &amp;lt;= n; ++i)
+    {
+      last[i] = i;
+      sz[i] = 0;
+      ++tot;
+      make(i - 1, p[i - 1].r, i, i, 0, i);
+      lrres(i);
+    }
+  }
+
+  inline void addrow(int row)
+  {
+    if (a[0] == 0)
+      return;
+    ++tot;
+    make(tot, tot, last[a[1]], p[last[a[1]]].d, row, a[1]);
+    udres(tot);
+
+    ++sz[a[1]];
+    last[a[1]] = tot;
+    for (int i = 2; i &amp;lt;= a[0]; ++i)
+    {
+      ++tot;
+      make(tot - 1, p[tot - 1].r, last[a[i]], p[last[a[i]]].d, row, a[i]);
+      udres(tot);
+      lrres(tot);
+
+      ++sz[a[i]];
+      last[a[i]] = tot;
+    }
+  }
+
+  inline void del(int col)
+  {
+    lrdel(col);
+    for (int i = p[col].d; i != col; i = p[i].d)
+      for (int j = p[i].r; j != i; j = p[j].r)
+        uddel(j), --sz[p[j].col];
+  }
+
+  inline void back(int col)
+  {
+    lrres(col);
+    for (int i = p[col].d; i != col; i = p[i].d)
+      for (int j = p[i].r; j != i; j = p[j].r)
+        udres(j), ++sz[p[j].col];
+  }
+
+  int dance(int step)
+  {
+    if (!p[0].r)
+      return step;
+
+    int ind, mmin = 0x7f7f7f7f;
+    for (int i = p[0].r; i; i = p[i].r)
+      if (sz[p[i].col] &amp;lt; mmin)
+        mmin = sz[p[ind = i].col];
+
+    if (mmin == 0)
+      return 0;
+
+    del(ind);
+    for (int i = p[ind].d; i != ind; i = p[i].d)
+    {
+      for (int j = p[i].r; j != i; j = p[j].r)
+        del(p[j].col);
+
+      int ans = dance(step + 1);
+      if (ans)
+        return ans;
+
+      for (int j = p[i].r; j != i; j = p[j].r)
+        back(p[j].col);
+    }
+    back(ind);
+    return 0;
+  }
+} dlx;
+
+int main()
+{
+  int T, n, m;
+  scanf(&amp;quot;%d&amp;quot;, &amp;amp;T);
+  while (T--)
+  {
+    scanf(&amp;quot;%d%d&amp;quot;, &amp;amp;n, &amp;amp;m);
+    dlx.initrow(m);
+    for (int i = 1; i &amp;lt;= n; i++)
+    {
+      for (int j = 1, x; j &amp;lt;= m; j++)
+      {
+        scanf(&amp;quot;%d&amp;quot;, &amp;amp;x);
+        if (x)
+          a[++a[0]] = j;
+      }
+      dlx.addrow(i);
+      a[0] = 0;
+    }
+    if (dlx.dance(0))
+      printf(&amp;quot;Yes\n&amp;quot;);
+    else
+      printf(&amp;quot;No\n&amp;quot;);
+  }
+  return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;变量声明及函数&#34;&gt;变量声明及函数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;p[M]，dlx数组版&lt;/li&gt;
+&lt;li&gt;tot，点数，sz[i] = j，即第i列有j个1]，last[i] = j，即第i列最末尾元素在p中下标为j&lt;/li&gt;
+&lt;li&gt;make(int l, int r, int u, int d, int row, int col)，插入一个新节点&lt;/li&gt;
+&lt;li&gt;uddel(int x)，断开x节点的上下边&lt;/li&gt;
+&lt;li&gt;udres(int x)，上下边重连&lt;/li&gt;
+&lt;li&gt;lrdel(int x)&lt;/li&gt;
+&lt;li&gt;lrres(int x)&lt;/li&gt;
+&lt;li&gt;initrow(int n)，初始化列首节点&lt;/li&gt;
+&lt;li&gt;addrow(int row)，添加一行节点&lt;/li&gt;
+&lt;li&gt;del(int col)&lt;/li&gt;
+&lt;li&gt;back(int col)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;指针形模板&#34;&gt;指针形模板&lt;/h2&gt;
+">Dancing Links X（跳舞链）</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://e166er123.github.io/treap/"" data-c="

@@ -8,7 +8,7 @@
 <meta name="keywords" content="个人博客">
 <meta name="description" content="个人blog">
 <meta name="theme-color" content="#ffc078">
-<title>归并树 | E166ER&#39;s Blog</title>
+<title>Dancing Links X（跳舞链） | E166ER&#39;s Blog</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1605878235590">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,7 +38,7 @@
 
 
 
-  <meta name="description" content="归并树" />
+  <meta name="description" content="Dancing Links X（跳舞链）" />
   <meta name="keywords" content="" />
 </head>
 
@@ -190,7 +190,8 @@
       <div class="sidebar-body gemini" id="sidebar_body">
         
           
-            
+            <div class="post-side-meta" id="post_side_meta">
+              
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -238,6 +239,200 @@
   </div>
 
 </div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%95%B0%E7%BB%84%E5%BD%A2%E6%A8%A1%E6%9D%BF">数组形模板</a>
+<ul>
+<li><a href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E5%8F%8A%E5%87%BD%E6%95%B0">变量声明及函数</a></li>
+</ul>
+</li>
+<li><a href="#%E6%8C%87%E9%92%88%E5%BD%A2%E6%A8%A1%E6%9D%BF">指针形模板</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
+      }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
+    });
+  }
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
           
         
       </div>
@@ -325,8 +520,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://e166er123.github.io/gui-bing-shu/">
-      归并树
+    <a class="post-title-link" href="https://e166er123.github.io/dancing-links-xwu-dao-lian/">
+      Dancing Links X（跳舞链）
     </a>
   </h1>
   <div class="post-meta">
@@ -334,100 +529,169 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-11-19 16:56:24">2020-11-19</span>
+      <span class="publish-time" data-t="2020-11-20 13:52:28">2020-11-20</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>3<span class="language" data-lan="minute">分钟</span></span>
+      <span>4<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>448<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>652<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <p>归并树是线段树和归并排序的合成</p>
-<pre><code>#include &lt;cstdio&gt;
-#include &lt;algorithm&gt;
+              <h2 id="数组形模板">数组形模板</h2>
+<p><a href="http://hihocoder.com/problemset/problem/1317?sid=1595288">hiho一下 跳舞链</a></p>
+<pre><code class="language-c">#include &lt;bits/stdc++.h&gt;
 using namespace std;
+const int N = 2000 + 100, M = 610000 + 100;
 
-#define maxn 100005
-#define maxd 20
-int n, m, a[maxn], Merge[maxd][maxn];
-void build(int deep, int l, int r)
-{ //建树
-  if (l == r)
-  {
-    Merge[deep][l] = a[l];
-    return;
-  } //叶子节点
-  int mid = (l + r) &gt;&gt; 1;
-  build(deep + 1, l, mid), build(deep + 1, mid + 1, r); //先构造子节点
-  for (int i = l, j = mid + 1, k = l; i &lt;= mid || j &lt;= r;)
-  { //归并排序构造当前节点
-    if (j &gt; r)
-      Merge[deep][k++] = Merge[deep + 1][i++];
-    else if (i &gt; mid || Merge[deep + 1][i] &gt; Merge[deep + 1][j])
-      Merge[deep][k++] = Merge[deep + 1][j++];
-    else
-      Merge[deep][k++] = Merge[deep + 1][i++];
-  }
-}
-
-int calc(int deep, int L, int R, int l, int r, int x)
-{ //计算[L,R]交[l,r]中小于x的有多少个数
-  if (L &gt;= l &amp;&amp; R &lt;= r)
-  { //[L,R]完全被[l,r]包含,直接二分查找返回
-    return lower_bound(Merge[deep] + L, Merge[deep] + R + 1, x) - Merge[deep] - L;
-  }
-  int mid = (L + R) &gt;&gt; 1, ans = 0; //否则到子节点查找
-  if (mid &gt;= l)
-    ans += calc(deep + 1, L, mid, l, r, x);
-  if (mid &lt; r)
-    ans += calc(deep + 1, mid + 1, R, l, r, x);
-  return ans;
-}
-
-int query(int l, int r, int k)
+int a[N];
+struct node
 {
-  int L = 1, R = n;
-  while (L &lt;= R)
-  { //二分查找答案
-    int mid = (L + R) &gt;&gt; 1, cnt;
-    cnt = calc(0, 1, n, l, r, Merge[0][mid]);
-    if (cnt &lt;= k)
-      L = mid + 1; //&lt;mid的肯定不是答案
-    else
-      R = mid - 1; //&gt;=mid的肯定不是答案
-  }
-  return Merge[0][L - 1]; //L不是答案(R不是答案,L&gt;=R),L-2也不是答案(L=mid+1,mid-1不是答案)，答案肯定是L-1
-}
+  int l, r, u, d, row, col;
+};
 
-void work()
+struct Dlx
 {
-  for (int i = 1; i &lt;= n; i++)
-    scanf(&quot;%d&quot;, a + i);
-  build(0, 1, n);
-  int l, r, k;
-  for (int i = 0; i &lt; m; i++)
+  node p[M];
+  int tot, sz[N], last[N];
+  inline void make(int l, int r, int u, int d, int row, int col) { p[tot].l = l, p[tot].r = r, p[tot].u = u, p[tot].d = d, p[tot].row = row, p[tot].col = col; }
+  inline void uddel(int x) { p[p[x].u].d = p[x].d, p[p[x].d].u = p[x].u; }
+  inline void udres(int x) { p[p[x].u].d = p[p[x].d].u = x; }
+  inline void lrdel(int x) { p[p[x].l].r = p[x].r, p[p[x].r].l = p[x].l; }
+  inline void lrres(int x) { p[p[x].l].r = p[p[x].r].l = x; }
+  inline void initrow(int n)
   {
-    scanf(&quot;%d%d%d&quot;, &amp;l, &amp;r, &amp;k);
-    printf(&quot;%d\n&quot;, query(l, r, k - 1));
+    tot = 0;
+    make(0, 0, 0, 0, 0, 0);
+    for (int i = 1; i &lt;= n; ++i)
+    {
+      last[i] = i;
+      sz[i] = 0;
+      ++tot;
+      make(i - 1, p[i - 1].r, i, i, 0, i);
+      lrres(i);
+    }
   }
-}
+
+  inline void addrow(int row)
+  {
+    if (a[0] == 0)
+      return;
+    ++tot;
+    make(tot, tot, last[a[1]], p[last[a[1]]].d, row, a[1]);
+    udres(tot);
+
+    ++sz[a[1]];
+    last[a[1]] = tot;
+    for (int i = 2; i &lt;= a[0]; ++i)
+    {
+      ++tot;
+      make(tot - 1, p[tot - 1].r, last[a[i]], p[last[a[i]]].d, row, a[i]);
+      udres(tot);
+      lrres(tot);
+
+      ++sz[a[i]];
+      last[a[i]] = tot;
+    }
+  }
+
+  inline void del(int col)
+  {
+    lrdel(col);
+    for (int i = p[col].d; i != col; i = p[i].d)
+      for (int j = p[i].r; j != i; j = p[j].r)
+        uddel(j), --sz[p[j].col];
+  }
+
+  inline void back(int col)
+  {
+    lrres(col);
+    for (int i = p[col].d; i != col; i = p[i].d)
+      for (int j = p[i].r; j != i; j = p[j].r)
+        udres(j), ++sz[p[j].col];
+  }
+
+  int dance(int step)
+  {
+    if (!p[0].r)
+      return step;
+
+    int ind, mmin = 0x7f7f7f7f;
+    for (int i = p[0].r; i; i = p[i].r)
+      if (sz[p[i].col] &lt; mmin)
+        mmin = sz[p[ind = i].col];
+
+    if (mmin == 0)
+      return 0;
+
+    del(ind);
+    for (int i = p[ind].d; i != ind; i = p[i].d)
+    {
+      for (int j = p[i].r; j != i; j = p[j].r)
+        del(p[j].col);
+
+      int ans = dance(step + 1);
+      if (ans)
+        return ans;
+
+      for (int j = p[i].r; j != i; j = p[j].r)
+        back(p[j].col);
+    }
+    back(ind);
+    return 0;
+  }
+} dlx;
 
 int main()
 {
-  while (~scanf(&quot;%d%d&quot;, &amp;n, &amp;m))
-    work();
+  int T, n, m;
+  scanf(&quot;%d&quot;, &amp;T);
+  while (T--)
+  {
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+    dlx.initrow(m);
+    for (int i = 1; i &lt;= n; i++)
+    {
+      for (int j = 1, x; j &lt;= m; j++)
+      {
+        scanf(&quot;%d&quot;, &amp;x);
+        if (x)
+          a[++a[0]] = j;
+      }
+      dlx.addrow(i);
+      a[0] = 0;
+    }
+    if (dlx.dance(0))
+      printf(&quot;Yes\n&quot;);
+    else
+      printf(&quot;No\n&quot;);
+  }
   return 0;
 }
 </code></pre>
+<h3 id="变量声明及函数">变量声明及函数</h3>
+<ul>
+<li>p[M]，dlx数组版</li>
+<li>tot，点数，sz[i] = j，即第i列有j个1]，last[i] = j，即第i列最末尾元素在p中下标为j</li>
+<li>make(int l, int r, int u, int d, int row, int col)，插入一个新节点</li>
+<li>uddel(int x)，断开x节点的上下边</li>
+<li>udres(int x)，上下边重连</li>
+<li>lrdel(int x)</li>
+<li>lrres(int x)</li>
+<li>initrow(int n)，初始化列首节点</li>
+<li>addrow(int row)，添加一行节点</li>
+<li>del(int col)</li>
+<li>back(int col)</li>
+</ul>
+<h2 id="指针形模板">指针形模板</h2>
 
             </div>
             
@@ -440,7 +704,7 @@ int main()
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://e166er123.github.io/gui-bing-shu/" title="归并树">https://e166er123.github.io/gui-bing-shu/</a>
+      <a href="https://e166er123.github.io/dancing-links-xwu-dao-lian/" title="Dancing Links X（跳舞链）">https://e166er123.github.io/dancing-links-xwu-dao-lian/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -454,11 +718,15 @@ int main()
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="数据结构汇总" href="https://e166er123.github.io/shu-ju-jie-gou/">数据结构汇总</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="数据结构汇总" href="https://e166er123.github.io/shu-ju-jie-gou/">上一篇</a>
+        <a class="nav-pc-next" title="2016 ccpc 杭州" href="https://e166er123.github.io/2016-ccpc-hang-zhou/">2016 ccpc 杭州</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="2016 ccpc 杭州" href="https://e166er123.github.io/2016-ccpc-hang-zhou/">上一篇</a>
       
     </div>
     <div class="nav-next">
+      
+        <a class="nav-pc-next" title="Treap" href="https://e166er123.github.io/treap/">Treap</a>
+        <a class="nav-mobile-next" title="Treap" href="https://e166er123.github.io/treap/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>

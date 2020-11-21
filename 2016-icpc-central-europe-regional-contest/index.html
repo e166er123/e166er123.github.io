@@ -8,7 +8,7 @@
 <meta name="keywords" content="个人博客">
 <meta name="description" content="个人blog">
 <meta name="theme-color" content="#ffc078">
-<title>Dancing Links（跳舞链） | E166ER&#39;s Blog</title>
+<title>2016 ICPC Central Europe Regional Contest | E166ER&#39;s Blog</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1605966789902">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,8 +38,8 @@
 
 
 
-  <meta name="description" content="Dancing Links（跳舞链）" />
-  <meta name="keywords" content="数据结构" />
+  <meta name="description" content="2016 ICPC Central Europe Regional Contest" />
+  <meta name="keywords" content="" />
 </head>
 
 <body>
@@ -247,15 +247,7 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E6%95%B0%E7%BB%84%E5%BD%A2%E6%A8%A1%E6%9D%BF">数组形模板</a>
-<ul>
-<li><a href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E5%8F%8A%E5%87%BD%E6%95%B0">变量声明及函数</a></li>
-<li><a href="#%E7%AE%80%E4%BB%8B">简介</a></li>
-<li><a href="#x%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4">X算法实现步骤</a></li>
-<li><a href="#%E5%AD%A6%E4%B9%A0blog">学习blog</a></li>
-</ul>
-</li>
-<li><a href="#%E6%8C%87%E9%92%88%E5%BD%A2%E6%A8%A1%E6%9D%BF">指针形模板</a></li>
+<li><a href="#a-appearance-analysis">A - Appearance Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -523,8 +515,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://e166er123.github.io/dancing-links-xwu-dao-lian/">
-      Dancing Links（跳舞链）
+    <a class="post-title-link" href="https://e166er123.github.io/2016-icpc-central-europe-regional-contest/">
+      2016 ICPC Central Europe Regional Contest
     </a>
   </h1>
   <div class="post-meta">
@@ -532,211 +524,147 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-11-20 13:52:28">2020-11-20</span>
+      <span class="publish-time" data-t="2020-11-21 21:50:47">2020-11-21</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
     <span class="meta-item">
-      <i class="fa fa-folder-o"></i>
-      <span class="pc-show language" data-lan="category-in">分类于</span>
-      
-      
-      <a href="https://e166er123.github.io/NI9yRXNsV/">
-        <span>数据结构</span>
-      </a>
-      
-      
-    </span>
-    <span class="post-meta-divider">|</span>
-    
-    <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>5<span class="language" data-lan="minute">分钟</span></span>
+      <span>4<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>939<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>596<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <h2 id="数组形模板">数组形模板</h2>
-<p><a href="http://hihocoder.com/problemset/problem/1317?sid=1595288">hiho一下 跳舞链</a></p>
-<pre><code class="language-c">#include &lt;bits/stdc++.h&gt;
+              <h2 id="a-appearance-analysis">A - Appearance Analysis</h2>
+<pre><code class="language-c">#pragma GCC target(&quot;popcnt&quot;)
+#include &lt;bits/stdc++.h&gt;
 using namespace std;
-const int N = 2000 + 100, M = 610000 + 100;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&lt;int, int&gt; pii;
+typedef pair&lt;ll, ll&gt; pll;
+#define forn(i, s, t) for (register int i = (int)s; i &lt;= (int)t; ++i)
+#define rforn(i, s, t) for (register int i = (int)s; i &gt;= t; --i)
+#define dbg(x) cerr &lt;&lt; &quot;L&quot; &lt;&lt; __LINE__ &lt;&lt; &quot;: &quot; &lt;&lt; #x &lt;&lt; &quot; = &quot; &lt;&lt; x &lt;&lt; endl
+#define sci(x) scanf(&quot;%d&quot;, &amp;x)
+#define scl(x) scanf(&quot;%lld&quot;, &amp;x)
+#define pri(x) printf(&quot;%d&quot;, x)
+#define prin(x) printf(&quot;%d\n&quot;, x)
+#define prl(x) printf(&quot;%lld&quot;, x)
+#define prln(x) printf(&quot;%lld\n&quot;, x)
+#define lson p &lt;&lt; 1
+#define rson p &lt;&lt; 1 | 1
+#define mp make_pair
+#define pb push_back
+#define IO ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define lowbit(x) (1 &lt;&lt; __builtin_ctz(x))
+#define IL inline
+const double PI = acos(-1.0);
+const int N = 12255871 + 100;
+const int M = 4010;
+const int D = 1e6 + 100;
+const ll mod = 1e9 + 7;
+const int P = 233;
+const ll inf = 2000000000;
+const int HASH = 12255871;
+const double eps = 1e-2;
+IL int inc(int a, int b) { return a + b &gt;= mod ? a + b - mod : a + b; }
+IL int sgn(double a) { return a &lt; -eps ? -1 : a &lt; eps ? 0 : 1; }
 
-int a[N];
-struct node
+ll ans;
+int row, col;
+ull ha[N];
+char mq[120][120], tp[120][120];
+
+void rotate(int x, int y)
 {
-  int l, r, u, d, row, col;
-};
+  char t1[120][120];
+  for (int i = 1; i &lt;= x; ++i)
+    for (int j = 1; j &lt;= y; ++j)
+      t1[i][j] = tp[i][j];
+  for (int i = 1; i &lt;= x; ++i)
+    for (int j = 1; j &lt;= y; ++j)
+      tp[j][x - i + 1] = t1[i][j];
+}
 
-struct Dlx
+void rotate1(int x, int y)
 {
-  node p[M];
-  int tot, sz[N], last[N];
-  inline void make(int l, int r, int u, int d, int row, int col) { p[tot].l = l, p[tot].r = r, p[tot].u = u, p[tot].d = d, p[tot].row = row, p[tot].col = col; }
-  inline void uddel(int x) { p[p[x].u].d = p[x].d, p[p[x].d].u = p[x].u; }
-  inline void udres(int x) { p[p[x].u].d = p[p[x].d].u = x; }
-  inline void lrdel(int x) { p[p[x].l].r = p[x].r, p[p[x].r].l = p[x].l; }
-  inline void lrres(int x) { p[p[x].l].r = p[p[x].r].l = x; }
-  inline void initrow(int n)
+  char t1[120][120];
+  for (int i = 1; i &lt;= x; ++i)
+    for (int j = 1; j &lt;= y; ++j)
+      t1[i][j] = tp[i][j];
+
+  for (int i = 1; i &lt;= x; ++i)
+    for (int j = 1; j &lt;= y; ++j)
+      tp[i][j] = t1[x - i + 1][y - j + 1];
+}
+
+void hashnm(int x, int y)
+{
+  ull t1 = 0;
+  for (int i = 1; i &lt;= x; ++i)
+    for (int j = 1; j &lt;= y; ++j)
+      t1 = t1 * P + tp[i][j];
+  t1 %= HASH;
+  ha[t1] = 1;
+}
+
+void work(int x, int y)
+{
+  ull t1 = 0;
+  for (int i = 1; i &lt;= x; ++i)
+    for (int j = 1; j &lt;= y; ++j)
+      t1 = t1 * P + tp[i][j];
+  t1 %= HASH;
+  if (!ha[t1])
+    ++ans, ha[t1] = 1;
+  else
+    return;
+
+  if (x != y)
   {
-    tot = 0;
-    make(0, 0, 0, 0, 0, 0);
-    for (int i = 1; i &lt;= n; ++i)
+    rotate1(x, y);
+    hashnm(x, y);
+  }
+  else
+    for (int i = 1; i &lt;= 3; ++i)
     {
-      last[i] = i;
-      sz[i] = 0;
-      ++tot;
-      make(i - 1, p[i - 1].r, i, i, 0, i);
-      lrres(i);
+      rotate(x, y);
+      hashnm(x, y);
     }
-  }
-
-  inline void addrow(int row)
-  {
-    if (a[0] == 0)
-      return;
-    ++tot;
-    make(tot, tot, last[a[1]], p[last[a[1]]].d, row, a[1]);
-    udres(tot);
-
-    ++sz[a[1]];
-    last[a[1]] = tot;
-    for (int i = 2; i &lt;= a[0]; ++i)
-    {
-      ++tot;
-      make(tot - 1, p[tot - 1].r, last[a[i]], p[last[a[i]]].d, row, a[i]);
-      udres(tot);
-      lrres(tot);
-
-      ++sz[a[i]];
-      last[a[i]] = tot;
-    }
-  }
-
-  inline void del(int col)
-  {
-    lrdel(col);
-    for (int i = p[col].d; i != col; i = p[i].d)
-      for (int j = p[i].r; j != i; j = p[j].r)
-        uddel(j), --sz[p[j].col];
-  }
-
-  inline void back(int col)
-  {
-    lrres(col);
-    for (int i = p[col].d; i != col; i = p[i].d)
-      for (int j = p[i].r; j != i; j = p[j].r)
-        udres(j), ++sz[p[j].col];
-  }
-
-  int dance(int step)
-  {
-    if (!p[0].r)
-      return step;
-
-    int ind, mmin = 0x7f7f7f7f;
-    for (int i = p[0].r; i; i = p[i].r)
-      if (sz[p[i].col] &lt; mmin)
-        mmin = sz[p[ind = i].col];
-
-    if (mmin == 0)
-      return 0;
-
-    del(ind);
-    for (int i = p[ind].d; i != ind; i = p[i].d)
-    {
-      for (int j = p[i].r; j != i; j = p[j].r)
-        del(p[j].col);
-
-      int ans = dance(step + 1);
-      if (ans)
-        return ans;
-
-      for (int j = p[i].r; j != i; j = p[j].r)
-        back(p[j].col);
-    }
-    back(ind);
-    return 0;
-  }
-} dlx;
+}
 
 int main()
 {
-  int T, n, m;
-  scanf(&quot;%d&quot;, &amp;T);
-  while (T--)
+  int r, c;
+  while (cin &gt;&gt; r &gt;&gt; c)
   {
-    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
-    dlx.initrow(m);
-    for (int i = 1; i &lt;= n; i++)
-    {
-      for (int j = 1, x; j &lt;= m; j++)
+    ans = 0;
+    forn(i, 1, r) scanf(&quot;%s&quot;, mq[i] + 1);
+    col = row = 1;
+    while (mq[2][row + 2] != '#')
+      ++row;
+    while (mq[col + 2][2] != '#')
+      ++col;
+
+    for (int y = 2; y &lt;= c; y += row + 1)
+      for (int x = 2; x &lt;= r; x += col + 1)
       {
-        scanf(&quot;%d&quot;, &amp;x);
-        if (x)
-          a[++a[0]] = j;
+        for (int i = 1; i &lt;= col; ++i)
+          for (int j = 1; j &lt;= row; ++j)
+            tp[i][j] = mq[x + i - 1][y + j - 1];
+        work(col, row);
       }
-      dlx.addrow(i);
-      a[0] = 0;
-    }
-    if (dlx.dance(0))
-      printf(&quot;Yes\n&quot;);
-    else
-      printf(&quot;No\n&quot;);
+    cout &lt;&lt; ans &lt;&lt; endl;
   }
-  return 0;
 }
 </code></pre>
-<h3 id="变量声明及函数">变量声明及函数</h3>
-<ul>
-<li>p[M]，dlx数组版</li>
-<li>tot，点数，sz[i] = j，即第i列有j个1，last[i] = j，即第i列最末尾元素在p中下标为j</li>
-<li>make(int l, int r, int u, int d, int row, int col)，插入一个新节点</li>
-<li>uddel(int x)，断开x节点的上下边</li>
-<li>udres(int x)，上下边重连</li>
-<li>lrdel(int x)，左右断</li>
-<li>lrres(int x)，左右重连</li>
-<li>initrow(int n)，初始化列首节点</li>
-<li>addrow(int row)，添加一行节点</li>
-<li>del(int col)，删除当前列，以及满足A<sub>i,j</sub>= 1的每一行</li>
-<li>back(int col)，回溯</li>
-<li>dance(int step)，X算法(具体实现，先找到列元素最少列，使用del删除当前列，再枚举删除行r，对A<sub>r,j</sub>= 1的列，del(j)，,递归回溯)</li>
-</ul>
-<h3 id="简介">简介</h3>
-<p><a href="https://en.wikipedia.org/wiki/Dancing_Links">Dancing Links</a>(跳舞链)是一种常用于递归回溯中的数据结构<br>
-<a href="https://en.wikipedia.org/wiki/Knuth%27s_Algorithm_X">Knuth's Algorithm X</a>是用于解决<a href="https://en.wikipedia.org/wiki/Exact_cover">精准覆盖问题</a>以及<a href="https://en.wikipedia.org/wiki/Sudoku_solving_algorithms">数独</a>的常见算法，<br>
-X算法使用DL解决精准覆盖问题称为DLX</p>
-<h3 id="x算法实现步骤">X算法实现步骤</h3>
-<ol>
-<li>若矩阵没有未覆盖列，则当前解为有效解，成功终止(DLX，总表头r指针指向自己)</li>
-<li>选择含1最少的列c</li>
-<li>在c列中选择一行，满足A<sub>r,c</sub>= 1</li>
-<li>将r行加入解集中</li>
-<li>对满足A<sub>r,j</sub>= 1的每一列j
-<ol>
-<li>对满足A<sub>i,j</sub>= 1的每一行i
-<ol>
-<li>从矩阵中删除第i行。</li>
-</ol>
-</li>
-<li>从矩阵A中删除列j。</li>
-</ol>
-</li>
-<li>重复上述过程</li>
-</ol>
-<h3 id="学习blog">学习blog</h3>
-<p><a href="https://www.cnblogs.com/grenet/p/3145800.html">舞蹈链算法求解精确覆盖问题</a><br>
-<a href="https://www.cnblogs.com/grenet/p/3163550.html">舞蹈链算法求解数独</a><br>
-<a href="https://www.cnblogs.com/grenet/p/3138654.html">数独的基本解法</a><br>
-<a href="https://blog.csdn.net/zhangjianjunab/article/details/83688681">DLX算法一览</a><br>
-<a href="https://blog.csdn.net/WhereIsHeroFrom/article/details/79220897">Dancing Links X跳舞链</a></p>
-<h2 id="指针形模板">指针形模板</h2>
 
             </div>
             
@@ -749,7 +677,7 @@ X算法使用DL解决精准覆盖问题称为DLX</p>
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://e166er123.github.io/dancing-links-xwu-dao-lian/" title="Dancing Links（跳舞链）">https://e166er123.github.io/dancing-links-xwu-dao-lian/</a>
+      <a href="https://e166er123.github.io/2016-icpc-central-europe-regional-contest/" title="2016 ICPC Central Europe Regional Contest">https://e166er123.github.io/2016-icpc-central-europe-regional-contest/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -758,21 +686,15 @@ X算法使用DL解决精准覆盖问题称为DLX</p>
   </ul>
   <div class="tags">
     
-      <a href="https://e166er123.github.io/NI9yRXNsV/"># 数据结构</a>
-    
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="2016 ccpc 杭州" href="https://e166er123.github.io/2016-ccpc-hang-zhou/">2016 ccpc 杭州</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="2016 ccpc 杭州" href="https://e166er123.github.io/2016-ccpc-hang-zhou/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="Treap" href="https://e166er123.github.io/treap/">Treap</a>
-        <a class="nav-mobile-next" title="Treap" href="https://e166er123.github.io/treap/">下一篇</a>
+        <a class="nav-pc-next" title="AtCoder Regular Contest 108" href="https://e166er123.github.io/atcoder-regular-contest-108/">AtCoder Regular Contest 108</a>
+        <a class="nav-mobile-next" title="AtCoder Regular Contest 108" href="https://e166er123.github.io/atcoder-regular-contest-108/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

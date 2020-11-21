@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://e166er123.github.io</id>
     <title>E166ER&apos;s Blog</title>
-    <updated>2020-11-21T13:49:23.530Z</updated>
+    <updated>2020-11-21T13:53:13.369Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://e166er123.github.io"/>
     <link rel="self" href="https://e166er123.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://e166er123.github.io/images/avatar.png</logo>
     <icon>https://e166er123.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, E166ER&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[2016 ICPC Central Europe Regional Contest]]></title>
+        <id>https://e166er123.github.io/2016-icpc-central-europe-regional-contest/</id>
+        <link href="https://e166er123.github.io/2016-icpc-central-europe-regional-contest/">
+        </link>
+        <updated>2020-11-21T13:50:47.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[AtCoder Regular Contest 108]]></title>
         <id>https://e166er123.github.io/atcoder-regular-contest-108/</id>

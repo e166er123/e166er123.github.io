@@ -9,7 +9,7 @@
 <meta name="description" content="个人blog">
 <meta name="theme-color" content="#ffc078">
 <title>数据结构汇总 | E166ER&#39;s Blog</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1605925237443">
+<link rel="shortcut icon" href="/favicon.ico?v=1605925947816">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -2181,7 +2181,7 @@ int main()
 &lt;h3 id=&#34;变量声明及函数&#34;&gt;变量声明及函数&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;p[M]，dlx数组版&lt;/li&gt;
-&lt;li&gt;tot，点数，sz[i] = j，即第i列有j个1]，last[i] = j，即第i列最末尾元素在p中下标为j&lt;/li&gt;
+&lt;li&gt;tot，点数，sz[i] = j，即第i列有j个1，last[i] = j，即第i列最末尾元素在p中下标为j&lt;/li&gt;
 &lt;li&gt;make(int l, int r, int u, int d, int row, int col)，插入一个新节点&lt;/li&gt;
 &lt;li&gt;uddel(int x)，断开x节点的上下边&lt;/li&gt;
 &lt;li&gt;udres(int x)，上下边重连&lt;/li&gt;
@@ -2189,25 +2189,23 @@ int main()
 &lt;li&gt;lrres(int x)，左右重连&lt;/li&gt;
 &lt;li&gt;initrow(int n)，初始化列首节点&lt;/li&gt;
 &lt;li&gt;addrow(int row)，添加一行节点&lt;/li&gt;
-&lt;li&gt;del(int col)&lt;/li&gt;
-&lt;li&gt;back(int col)&lt;/li&gt;
-&lt;li&gt;dance(int step)&lt;br&gt;
-&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;del(int col)，删除当前列，以及满足A&lt;sub&gt;i,j&lt;/sub&gt;= 1的每一行&lt;/li&gt;
+&lt;li&gt;back(int col)，回溯&lt;/li&gt;
+&lt;li&gt;dance(int step)，X算法(实现，先找到列元素最少列，删除当前列及满足条件的行，再枚举具体删除某行，递归回溯)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;简介&#34;&gt;简介&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Dancing_Links&#34;&gt;Dancing Links&lt;/a&gt;(跳舞链)是一种常用于递归回溯中的数据结构&lt;br&gt;
 &lt;a href=&#34;https://en.wikipedia.org/wiki/Knuth%27s_Algorithm_X&#34;&gt;Knuth&#39;s Algorithm X&lt;/a&gt;是用于解决&lt;a href=&#34;https://en.wikipedia.org/wiki/Exact_cover&#34;&gt;精准覆盖问题&lt;/a&gt;以及&lt;a href=&#34;https://en.wikipedia.org/wiki/Sudoku_solving_algorithms&#34;&gt;数独&lt;/a&gt;的常见算法，&lt;br&gt;
 X算法使用DL解决精准覆盖问题称为DLX&lt;/p&gt;
-&lt;br&gt;
 &lt;h3 id=&#34;x算法实现步骤&#34;&gt;X算法实现步骤&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;若矩阵没有未覆盖列，则当前解为有效解，成功终止(DLX，总表头r指针指向自己)&lt;/li&gt;
 &lt;li&gt;选择含1最少的列c&lt;/li&gt;
 &lt;li&gt;在c列中选择一行，满足A&lt;sub&gt;r,c&lt;/sub&gt;= 1&lt;/li&gt;
 &lt;li&gt;将r行加入解集中&lt;/li&gt;
-&lt;li&gt;对满足A&lt;sub&gt;r,j&lt;/sub&gt; = 1的每一列j
+&lt;li&gt;对满足A&lt;sub&gt;r,j&lt;/sub&gt;= 1的每一列j
 &lt;ol&gt;
-&lt;li&gt;对满足A&lt;sub&gt;i,j&lt;/sub&gt; = 1的每一行i
+&lt;li&gt;对满足A&lt;sub&gt;i,j&lt;/sub&gt;= 1的每一行i
 &lt;ol&gt;
 &lt;li&gt;从矩阵中删除第i行。&lt;/li&gt;
 &lt;/ol&gt;

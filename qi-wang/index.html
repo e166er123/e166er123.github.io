@@ -8,7 +8,7 @@
 <meta name="keywords" content="个人博客">
 <meta name="description" content="个人blog">
 <meta name="theme-color" content="#ffc078">
-<title>matlab入门 - mark | E166ER&#39;s Blog</title>
+<title>期望 | E166ER&#39;s Blog</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1606220538556">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,7 +38,7 @@
 
 
 
-  <meta name="description" content="matlab入门 - mark" />
+  <meta name="description" content="期望" />
   <meta name="keywords" content="" />
 </head>
 
@@ -247,7 +247,12 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%9F%BA%E7%A1%80%E5%87%BD%E6%95%B0">基础函数</a></li>
+<li><a href="#%E6%94%B6%E9%9B%86%E9%82%AE%E7%A5%A8-minus">收集邮票 Minus</a>
+<ul>
+<li><a href="#%E9%A2%98%E7%9B%AE">题目</a></li>
+<li><a href="#%E8%A7%A3%E6%B3%95">解法</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -515,8 +520,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://e166er123.github.io/matlab-ru-men-mark/">
-      matlab入门 - mark
+    <a class="post-title-link" href="https://e166er123.github.io/qi-wang/">
+      期望
     </a>
   </h1>
   <div class="post-meta">
@@ -524,7 +529,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2020-11-24 12:16:04">2020-11-24</span>
+      <span class="publish-time" data-t="2020-11-24 19:58:51">2020-11-24</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -535,19 +540,24 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>18<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>186<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <h2 id="基础函数">基础函数</h2>
-<p>imnoise<br>
-medfilt2<br>
-histeq<br>
-Image_Binary<br>
-fspecial<br>
-imfilter - https://blog.csdn.net/sxj0820/article/details/79867800</p>
+              <h2 id="收集邮票-minus">收集邮票 Minus</h2>
+<h3 id="题目">题目</h3>
+<p>有 n 种不同的邮票，皮皮想收集所有种类的邮票。<br>
+每次只能买一张，并且买到的邮票是 n 种的哪一种是等概率的，概率均为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span><br>
+皮皮购买每张邮票要支付1元钱。<br>
+现在皮皮手中没有邮票，皮皮想知道自己得到所有种类的邮票需要花费的钱数目的期望。<br>
+1 ≤ n ≤ 10 <sup>4</sup></p>
+<h3 id="解法">解法</h3>
+<p>令 g(i) 表示现在有i张，要买到n张的期望次数<br>
+g(n) 即有 n 张，买到 n，终点<br>
+g(0)，0张，到n，起点<br>
+已知 g(n) 求解 g(0)，对于状态 g(i)，它可能从 g(i + 1) 或 g(i) 转移而来</p>
 
             </div>
             
@@ -560,7 +570,7 @@ imfilter - https://blog.csdn.net/sxj0820/article/details/79867800</p>
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://e166er123.github.io/matlab-ru-men-mark/" title="matlab入门 - mark">https://e166er123.github.io/matlab-ru-men-mark/</a>
+      <a href="https://e166er123.github.io/qi-wang/" title="期望">https://e166er123.github.io/qi-wang/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -573,15 +583,11 @@ imfilter - https://blog.csdn.net/sxj0820/article/details/79867800</p>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="期望" href="https://e166er123.github.io/qi-wang/">期望</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="期望" href="https://e166er123.github.io/qi-wang/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="2016 ICPC Central Europe Regional Contest mark" href="https://e166er123.github.io/2016-icpc-central-europe-regional-contest/">2016 ICPC Central Europe Regional Contest mark</a>
-        <a class="nav-mobile-next" title="2016 ICPC Central Europe Regional Contest mark" href="https://e166er123.github.io/2016-icpc-central-europe-regional-contest/">下一篇</a>
+        <a class="nav-pc-next" title="matlab入门 - mark" href="https://e166er123.github.io/matlab-ru-men-mark/">matlab入门 - mark</a>
+        <a class="nav-mobile-next" title="matlab入门 - mark" href="https://e166er123.github.io/matlab-ru-men-mark/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
